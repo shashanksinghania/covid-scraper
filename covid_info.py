@@ -1,5 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
+import speech_recognition as sr
+import pyttsx3
 
 res = requests.get('https://www.worldometers.info/coronavirus/')
 soup = BeautifulSoup(res.text, 'html.parser')
@@ -28,3 +30,14 @@ for tr in table_body.find_all('tr', {'style':""}):
 
 print(total_stats)
 print(countries_data)
+
+r = sr.Recognizer()
+
+
+# To convert text to speech for replying
+def speak(text):
+    speak_engine = pyttsx3.init()
+    speak_engine.say(text)
+    speak_engine.runAndWait()
+
+
