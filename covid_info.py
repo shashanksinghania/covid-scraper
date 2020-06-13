@@ -4,7 +4,6 @@ import speech_recognition as sr
 import pyttsx3
 import re
 
-
 res = requests.get('https://www.worldometers.info/coronavirus/')
 soup = BeautifulSoup(res.text, 'html.parser')
 total_soup = soup.select('#maincounter-wrap')
@@ -59,13 +58,11 @@ def get_data_for_country(name):
     return None
 
 
-
 # To convert text to speech for replying
 def speak(ans):
     speak_engine = pyttsx3.init()
     speak_engine.say(ans)
     speak_engine.runAndWait()
-
 
 
 # To convert speach to text
@@ -96,7 +93,6 @@ def main():
     END_PHRASE = ["stop", "top", "end", "ok"]
     text = None
 
-
     # Search patterns
     TOTAL_PATTERN = {
         re.compile("[\w\s]*recovered"): get_total_recovered,
@@ -117,6 +113,9 @@ def main():
     while True:
         text = listen()
 
+        # Flag
+        end = False
+
         # First check if it is country specific data
         for pattern, funct in COUNTRY_PATTERN.items():
             if pattern.match(text):
@@ -124,7 +123,7 @@ def main():
                 for country in country_names:
                     if country in words:
                         answer = funct(country)
-                        print(answer)
+                        print("SS:", answer)
                         break
         if answer:
             speak(answer)
@@ -135,7 +134,7 @@ def main():
         for pattern, funct in TOTAL_PATTERN.items():
             if pattern.match(text):
                 answer = funct()
-                print(answer)
+                print("SS:", answer)
                 break
 
         if answer:
@@ -144,9 +143,15 @@ def main():
 
         # STOP chat
         for words in END_PHRASE:
-            if text.find(END_PHRASE) != -1:
+            if text.find(words) != -1:
                 print("SS: Bye!")
+                end = True
                 break
+
+        # Exit the loop
+        if end:
+            break
+
 
 if __name__ == '__main__':
     main()
