@@ -34,6 +34,7 @@ def get_total_recovered():
     return total_stats[2]
 
 
+# Table for country-wise data
 main_table = soup.find('table')
 table_body = main_table.tbody
 i = False
@@ -83,14 +84,18 @@ def listen():
             print("Could not request results; {0}".format(e))
 
         except sr.UnknownValueError:
-            print("unknown error occured")
+            print("unknown error occurred, try again!")
     return text.lower()
 
 
 def main():
     answer = None
+    print("Please say STOP to end the program")
     print("Program started")
-    END_PHRASE = ["stop", "top", "end", "ok"]
+    print("--------------")
+
+    # Phrases that would stop the program
+    END_PHRASES = ["stop", "top", "end", "ok"]
     text = None
 
     # Search patterns
@@ -125,6 +130,8 @@ def main():
                         answer = funct(country)
                         print("SS:", answer)
                         break
+
+        # Checks if it still needs an answer
         if answer:
             speak(answer)
             answer = None
@@ -142,7 +149,7 @@ def main():
             answer = None
 
         # STOP chat
-        for words in END_PHRASE:
+        for words in END_PHRASES:
             if text.find(words) != -1:
                 print("SS: Bye!")
                 end = True
