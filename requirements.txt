@@ -23,7 +23,7 @@ pefile==2019.4.18
 Pillow==7.1.2
 pluggy==0.13.1
 pre-commit==2.4.0
-py==1.8.1
+py==1.10.0
 PyAudio @ file:///C:/Users/Shashank/Downloads/PyAudio-0.2.11-cp38-cp38-win32.whl
 pygame==1.9.6
 PyInstaller==3.6
